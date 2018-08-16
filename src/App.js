@@ -15,7 +15,6 @@ class BooksApp extends React.Component {
   }
 
   componentDidUpdate(){
-    console.log("up")
     this.updateState() 
   }
 
@@ -53,7 +52,9 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route path="/search" render={() => (
-            <ListBooks/>
+            <ListBooks
+              myBooks={books}
+            />
           )}
         />
           

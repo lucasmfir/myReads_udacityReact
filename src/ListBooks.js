@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import Book from './Book'
 import * as BooksAPI from './BooksAPI'
+import PropTypes from "prop-types"
+import {DebounceInput} from 'react-debounce-input';
 
 class ListBooks extends Component {
 	
@@ -10,8 +12,12 @@ class ListBooks extends Component {
 		books: []
 	}
 
+	static propTypes = {
+		myBooks: PropTypes.array
+	}
+
 	updateQuery = (query) => {
-		this.setState({ query: query.trim() })
+        this.setState({ query: query.trim() })
 		if(query.length){
 			BooksAPI.search(query).then((books) => {
 	      		this.setState({books : books})
@@ -32,21 +38,35 @@ class ListBooks extends Component {
 	render() {
 
 		const {query, books} = this.state
+		const {myBooks} = this.props
 
 		let showingBooks
 
 		if(books.length){
 			showingBooks = books
+
 		} else {
 			showingBooks = []			
 		}
+
+		showingBooks = showingBooks
+			.map(b => {
+				myBooks.
+					map(mb => {
+						if(mb.id === b.id){
+							b.shelf = mb.shelf
+						}
+					})
+				return b
+			})
 
 		return(
 			<div className="search-books">
             <div className="search-books-bar">
               <Link className="close-search" to="/">Close</Link>
               <div className="search-books-input-wrapper">
-                <input 
+				  <DebounceInput
+			        debounceTimeout={300}
 					type='text'
 					placeholder='search books'
 					value={query}
@@ -64,7 +84,7 @@ class ListBooks extends Component {
 	                            <Book
 	                              id={book.id}
 	                              title={book.title}
-	                              bookCover={book.imageLinks.thumbnail}
+	                              bookCover={book.imageLinks && (book.imageLinks.thumbnail)}
 	                              onChangeShelf={(bookId, newShelf) => this.changeShelf(bookId, newShelf)}
 	                              shelf={book.shelf}
 	                            />
@@ -79,7 +99,6 @@ class ListBooks extends Component {
 		)
 	}
 }
-
 
 
 export default ListBooks
