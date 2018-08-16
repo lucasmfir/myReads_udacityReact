@@ -22,7 +22,7 @@ $ npm install npm@latest -g
 $ npm install
 ```
 
-* Rodar aplicação
+* Vá para a pasta /src e execute a aplicação
 
 ```bash
 $ npm start
