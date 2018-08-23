@@ -6,7 +6,7 @@ class Book extends Component{
 	static propTypes = {
 		title: PropTypes.string,
 		author: PropTypes.string,
-		bookCover: PropTypes.string,
+		bookCover: PropTypes.object,
 		shelf: PropTypes.string
 	}
 
@@ -24,7 +24,7 @@ class Book extends Component{
 		return(
 			<div className="book">
               <div className="book-top">
-                <div className="book-cover" style={{backgroundImage:`url(${bookCover})`}}></div>
+                <div className="book-cover" style={{backgroundImage:`url(${bookCover  && (bookCover.thumbnail)})`}}></div>
                 <div className="book-shelf-changer">
                   <select value={shelf ? shelf : 'none'} onChange={this.handleChange} id={id}>
                     <option value="move" disabled>Move to...</option>

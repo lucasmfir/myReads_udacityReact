@@ -1,6 +1,6 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
-import ListBooks from './ListBooks'
+import SearchPage from './SearchPage'
 import BookShelf from './BookShelf'
 import {Route, Link} from 'react-router-dom'
 import './App.css'
@@ -26,8 +26,7 @@ class BooksApp extends React.Component {
 
   changeShelf = (bookId, newShelf) => {
     BooksAPI.get(bookId)
-      .then( b => {
-        const book = b
+      .then( book => {
         BooksAPI.update(book, newShelf)
           .then(() => this.updateState())
       })
@@ -37,23 +36,18 @@ class BooksApp extends React.Component {
 
     const {books} = this.state 
 
-    const currentlyReadingBooks = books.filter((book, i) =>  
-                        book.shelf === "currentlyReading" ? book : null
-                      )
+    const currentlyReadingBooks = books.filter(book => book.shelf === "currentlyReading")
 
-    const wantToReadBooks = books.filter((book, i) => { 
-                        return (book.shelf === "wantToRead") ? book : null
-                      })
+    const wantToReadBooks = books.filter(book => book.shelf === "wantToRead")
 
-    const readBooks = books.filter((book, i) => { 
-                        return (book.shelf === "read") ? book : null
-                      })
-   
+    const readBooks = books.filter(book => book.shelf === "read")
+
     return (
       <div className="app">
         <Route path="/search" render={() => (
-            <ListBooks
+            <SearchPage
               myBooks={books}
+              changeShelf={this.changeShelf}
             />
           )}
         />
@@ -69,16 +63,19 @@ class BooksApp extends React.Component {
                 <BookShelf
                   title={"Currently Reading"}
                   books={currentlyReadingBooks}
+                  changeShelf={this.changeShelf}
                 />
 
                 <BookShelf
                   title={"Want to Read"}
                   books={wantToReadBooks}
+                  changeShelf={this.changeShelf}
                 />
 
                 <BookShelf
                   title={"Read"}
                   books={readBooks}
+                  changeShelf={this.changeShelf}
                 />
 
               </div>

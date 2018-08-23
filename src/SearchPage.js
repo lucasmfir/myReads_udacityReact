@@ -5,7 +5,7 @@ import * as BooksAPI from './BooksAPI'
 import PropTypes from "prop-types"
 import {DebounceInput} from 'react-debounce-input';
 
-class ListBooks extends Component {
+class SearchPage extends Component {
 	
 	state = {
 		query: '',
@@ -13,7 +13,8 @@ class ListBooks extends Component {
 	}
 
 	static propTypes = {
-		myBooks: PropTypes.array
+		myBooks: PropTypes.array,
+        changeShelf: PropTypes.func
 	}
 
 	updateQuery = (query) => {
@@ -27,18 +28,10 @@ class ListBooks extends Component {
 		}
 	}
 
-	changeShelf = (bookId, newShelf) => {
-	    BooksAPI.get(bookId)
-	      .then( b => {
-	        const book = b
-	        BooksAPI.update(book, newShelf)
-	     })
-  	}	
-
 	render() {
 
 		const {query, books} = this.state
-		const {myBooks} = this.props
+		const {myBooks, changeShelf} = this.props
 
 		let showingBooks
 
@@ -49,16 +42,16 @@ class ListBooks extends Component {
 			showingBooks = []			
 		}
 
-		showingBooks = showingBooks
-			.map(b => {
-				myBooks.
-					map(mb => {
-						if(mb.id === b.id){
-							b.shelf = mb.shelf
-						}
-					})
-				return b
-			})
+		showingBooks = showingBooks.map(showingBook => {
+            const myBook = myBooks.find(book => book.id === showingBook.id)
+				if(myBook){
+					return {
+						...showingBook,
+						shelf: myBook.shelf
+					}
+				}
+			return showingBook
+		})
 
 		return(
 			<div className="search-books">
@@ -84,8 +77,8 @@ class ListBooks extends Component {
 	                            <Book
 	                              id={book.id}
 	                              title={book.title}
-	                              bookCover={book.imageLinks && (book.imageLinks.thumbnail)}
-	                              onChangeShelf={(bookId, newShelf) => this.changeShelf(bookId, newShelf)}
+	                              bookCover={book.imageLinks}
+	                              onChangeShelf={changeShelf}
 	                              shelf={book.shelf}
 	                            />
 	                          </li>
@@ -101,5 +94,5 @@ class ListBooks extends Component {
 }
 
 
-export default ListBooks
+export default SearchPage
 

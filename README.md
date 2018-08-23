@@ -10,7 +10,7 @@ Para rodar o projeto você deve ter o [npm](https://www.npmjs.com/) e as deppend
 
 Na raiz do projeto e execute os seguintes comandos dentro do terminal:
 
-* Instalar `npm`
+* Atualizar o `npm`
 
 ```bash
 $ npm install npm@latest -g
