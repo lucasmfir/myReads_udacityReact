@@ -14,10 +14,6 @@ class BooksApp extends React.Component {
     this.updateState()
   }
 
-  componentDidUpdate(){
-    this.updateState() 
-  }
-
   updateState = () => {
     BooksAPI.getAll().then((books) => {
       this.setState({books : books})

@@ -5,7 +5,7 @@ class Book extends Component{
 
 	static propTypes = {
 		title: PropTypes.string,
-		author: PropTypes.string,
+		author: PropTypes.array,
 		bookCover: PropTypes.object,
 		shelf: PropTypes.string
 	}
@@ -36,7 +36,7 @@ class Book extends Component{
                 </div>
               </div>
               <div className="book-title">{title}</div>
-              <div className="book-authors">{author}</div>
+              <div className="book-authors">{author && (author.join("; "))}</div>
             </div>		
 		)
 	}

@@ -71,13 +71,14 @@ class SearchPage extends Component {
               <ol className="books-grid">
                 {	
                 	showingBooks.length ? ( 
-	                	showingBooks.map((book, i) => {      
+	                	showingBooks.map((book) => {
 	                        return (
-	                          <li key={i}>
+	                          <li key={book.id}>
 	                            <Book
 	                              id={book.id}
 	                              title={book.title}
-	                              bookCover={book.imageLinks}
+                                  author={book.authors}
+                                  bookCover={book.imageLinks}
 	                              onChangeShelf={changeShelf}
 	                              shelf={book.shelf}
 	                            />

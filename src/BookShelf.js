@@ -20,13 +20,13 @@ class BookShelf extends Component{
 		        <div className="bookshelf-books">
 	                <ol className="books-grid">
 	                	{books.length ? (
-	                		books.map((book, i) => { 
+	                		books.map((book) => {
 	                        return (
-	                          <li key={i}>
+	                          <li key={book.id}>
 	                            <Book
 	                              id={book.id}
 	                              title={book.title}
-	                              author={book.authors.join("; ")}
+	                              author={book.authors}
 	                              bookCover={book.imageLinks}
 	                              onChangeShelf={changeShelf}
 	                              shelf={book.shelf}
